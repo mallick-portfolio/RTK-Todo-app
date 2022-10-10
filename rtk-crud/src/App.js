@@ -12,6 +12,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Welcome />} />
+        <Route path="/todos" element={<TodoList />} />
         <Route path="/posts" element={<PostList />} />
         <Route path="/post/:id" element={<PostDetails />} />
       </Routes>
