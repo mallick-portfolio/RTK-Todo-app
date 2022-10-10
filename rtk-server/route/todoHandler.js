@@ -21,11 +21,11 @@ route.post("/", async (req, res) => {
   try {
     const newTodo = new Todo(req.body);
     await newTodo.save();
-    res.status(500).json({
+    res.status(200).json({
       message: "Todo Added Successfull",
     });
   } catch {
-    res.status(200).json({
+    res.status(500).json({
       message: "Todo Failed to added",
     });
   }
@@ -51,7 +51,6 @@ route.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Todo.deleteOne({ _id: id });
-    res.send(result);
     if (result.acknowledged) {
       res.status(202).json({
         message: "Delete Successfull",

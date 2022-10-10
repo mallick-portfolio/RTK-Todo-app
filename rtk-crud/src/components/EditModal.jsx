@@ -1,23 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { openTodoModal } from "../features/todoSlice.js";
-import { useAddNewTodoMutation } from "../services/todo.js";
 
-const TodoModal = () => {
-  const dispatch = useDispatch();
-  const [addTodo, res] = useAddNewTodoMutation();
+const EditModal = () => {
   const [data, setData] = useState({
     title: "",
     description: "",
     author: "",
   });
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const res = await addTodo(data);
-    if (res?.data?.message) {
-      dispatch(openTodoModal(false));
-    }
   };
 
   return (
@@ -86,7 +76,7 @@ const TodoModal = () => {
         <div className="flex pt-4 justify-between items-center">
           <button
             className="px-4 py-2 rounded-md bg-red-500 text-white text-base"
-            onClick={() => dispatch(openTodoModal(false))}
+            // onClick={() => dispatch(openTodoModal(false))}
           >
             Cancel
           </button>
@@ -94,7 +84,7 @@ const TodoModal = () => {
             type="submit"
             className="px-4 py-2 rounded-md bg-blue-500 text-white text-base"
           >
-            Add
+            Update
           </button>
         </div>
       </form>
@@ -102,4 +92,4 @@ const TodoModal = () => {
   );
 };
 
-export default TodoModal;
+export default EditModal;

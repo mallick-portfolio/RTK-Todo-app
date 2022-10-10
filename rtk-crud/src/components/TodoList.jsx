@@ -10,7 +10,11 @@ const TodoList = () => {
     (state) => state?.reducers?.todos?.isModalOpen
   );
   const dispatch = useDispatch();
-  const { data: todos, isError, isLoading } = useGetAllTodoQuery();
+  const {
+    data: todos,
+    isError,
+    isLoading,
+  } = useGetAllTodoQuery({}, { refetchOnMountOrArgChange: true });
   if (isLoading) {
     return "loading...";
   }
