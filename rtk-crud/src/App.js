@@ -8,7 +8,7 @@ import Welcome from "./components/Welcome.jsx";
 
 const App = () => {
   return (
-    <>
+    <div className="w-full overflow-hidden">
       <Header />
       <Routes>
         <Route path="/" element={<Welcome />} />
@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/posts" element={<PostList />} />
         <Route path="/post/:id" element={<PostDetails />} />
       </Routes>
-    </>
+    </div>
   );
 };
 

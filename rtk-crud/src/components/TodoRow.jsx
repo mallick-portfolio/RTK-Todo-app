@@ -6,6 +6,7 @@ const TodoRow = ({ todo }) => {
       <h1>{todo?.title}</h1>
       <h1>{todo?.author}</h1>
       <h1>{todo?.description}</h1>
+      <button className="px-4 py-2 bg-red-400 text-white rounded-md">Delete</button>
     </div>
   );
 };
