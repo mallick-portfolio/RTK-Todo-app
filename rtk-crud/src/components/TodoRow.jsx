@@ -1,6 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { editTodoModal } from "../features/todoSlice.js";
 import { useDeleteTodoMutation } from "../services/todo.js";
 const TodoRow = ({ todo }) => {
+  const dispatch = useDispatch();
   const [deleteTodo, res] = useDeleteTodoMutation();
   const handleDelete = async (id) => {
     const result = await deleteTodo(id);
@@ -12,7 +15,17 @@ const TodoRow = ({ todo }) => {
       <h1>{todo?.author}</h1>
       <h1>{todo?.description}</h1>
       <div className="flex items-center gap-6">
-        <button className="px-4 py-2 bg-blue-400 text-white rounded-md">
+        <button
+          onClick={() =>
+            dispatch(
+              editTodoModal({
+                status: true,
+                id: todo?._id,
+              })
+            )
+          }
+          className="px-4 py-2 bg-blue-400 text-white rounded-md"
+        >
           Edit
         </button>
         <button

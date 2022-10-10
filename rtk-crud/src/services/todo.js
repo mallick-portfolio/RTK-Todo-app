@@ -17,12 +17,31 @@ export const todoApi = createApi({
       },
       providesTags: ["Todo"],
     }),
+    getTodo: builder.query({
+      query: (id) => {
+        return {
+          url: `todo/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Todo"],
+    }),
     // Add New Todo
     addNewTodo: builder.mutation({
       query: (body) => {
         return {
           url: "todo",
           method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["Todo"],
+    }),
+    editTodo: builder.mutation({
+      query: (body) => {
+        return {
+          url: `todo/${body.id}`,
+          method: "PUT",
           body,
         };
       },
@@ -41,6 +60,8 @@ export const todoApi = createApi({
 });
 
 export const {
+  useEditTodoMutation,
+  useGetTodoQuery,
   useGetAllTodoQuery,
   useAddNewTodoMutation,
   useDeleteTodoMutation,

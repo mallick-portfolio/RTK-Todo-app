@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editTodoModal } from "../features/todoSlice.js";
+import { useEditTodoMutation, useGetTodoQuery } from "../services/todo.js";
 
 const EditModal = () => {
   const [data, setData] = useState({
@@ -6,8 +9,37 @@ const EditModal = () => {
     description: "",
     author: "",
   });
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  const id = useSelector((state) => state?.reducers?.todos?.updateId);
+  const { data: todo, isError, isLoading } = useGetTodoQuery(id);
+  const [editTodo, res] = useEditTodoMutation();
+  if (isLoading) {
+    return "Loading ...";
+  }
+  if (isError) {
+    return "There was a problem";
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const body = {
+      id,
+      title: data.title ? data?.title : todo?.data?.title,
+      description: data.description
+        ? data?.description
+        : todo?.data?.description,
+      author: data.author ? data?.author : todo?.data?.author,
+    };
+
+    const response = await editTodo(body);
+    if (response?.data?.message) {
+      dispatch(
+        editTodoModal({
+          status: false,
+          id: "",
+        })
+      );
+    }
   };
 
   return (
@@ -27,6 +59,7 @@ const EditModal = () => {
                   Title
                 </label>
                 <input
+                  defaultValue={todo?.data?.title}
                   name="title"
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
@@ -44,6 +77,7 @@ const EditModal = () => {
                   Description
                 </label>
                 <input
+                  defaultValue={todo?.data?.description}
                   name="description"
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
@@ -61,6 +95,7 @@ const EditModal = () => {
                   Author
                 </label>
                 <input
+                  defaultValue={todo?.data?.author}
                   name="author"
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
@@ -76,7 +111,14 @@ const EditModal = () => {
         <div className="flex pt-4 justify-between items-center">
           <button
             className="px-4 py-2 rounded-md bg-red-500 text-white text-base"
-            // onClick={() => dispatch(openTodoModal(false))}
+            onClick={() =>
+              dispatch(
+                editTodoModal({
+                  status: false,
+                  id: "",
+                })
+              )
+            }
           >
             Cancel
           </button>

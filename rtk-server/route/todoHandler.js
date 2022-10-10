@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const route = express.Router();
 const Todo = require("../model/todoSchema.js");
@@ -6,6 +5,20 @@ const Todo = require("../model/todoSchema.js");
 route.get("/", async (req, res) => {
   try {
     const result = await Todo.find({});
+    res.status(200).json({
+      message: "Data Successfull",
+      data: result,
+    });
+  } catch {
+    res.status(404).json({
+      error: "Data not found",
+    });
+  }
+});
+route.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await Todo.findById({ _id: id });
     res.status(200).json({
       message: "Data Successfull",
       data: result,

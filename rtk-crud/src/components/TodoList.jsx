@@ -2,10 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openTodoModal } from "../features/todoSlice.js";
 import { useGetAllTodoQuery } from "../services/todo.js";
+import EditModal from "./EditModal.jsx";
 import TodoModal from "./TodoModal.jsx";
 import TodoRow from "./TodoRow.jsx";
 
 const TodoList = () => {
+  const isEditModal = useSelector(
+    (state) => state?.reducers?.todos?.editTodoMode
+  );
   const isModalOpen = useSelector(
     (state) => state?.reducers?.todos?.isModalOpen
   );
@@ -35,6 +39,7 @@ const TodoList = () => {
         ))}
       </div>
       {isModalOpen && <TodoModal />}
+      {isEditModal && <EditModal />}
     </div>
   );
 };
